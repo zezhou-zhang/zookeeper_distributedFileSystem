@@ -1,13 +1,14 @@
 package zookeeper;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
 public class ZookeeperConnector implements Watcher {
-	private static final String ZOOKEEPER_ADDRESS = "localhost:2181";
+	private static String ZOOKEEPER_ADDRESS;
     private static final int SESSION_TIMEOUT = 3000;
     private static int portNum;
     private static String serverAddress;
@@ -20,6 +21,7 @@ public class ZookeeperConnector implements Watcher {
     }
     
     public void connectToZookeeper() throws IOException {
+    	ZOOKEEPER_ADDRESS = InetAddress.getLocalHost().getHostAddress() +":2181";
         this.zooKeeper = new ZooKeeper(ZOOKEEPER_ADDRESS, SESSION_TIMEOUT, this);
     }
     

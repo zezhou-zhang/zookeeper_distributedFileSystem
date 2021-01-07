@@ -80,32 +80,32 @@ public class LockRegistry implements Watcher {
 		 }
 	 }
 	 
-	 public boolean registerToWriteLock(String serverName, String fileName, String data) {
+	 public boolean registerToWriteLock(String serverName, String fileName, String data) throws InterruptedException {
 		 this.data = data;
-		 boolean lockAquired = false;
-		 try {
-				if (zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, false)==null &&
-						zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + READ_FLAG, false)==null) {
-					zooKeeper.create(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, serverName.getBytes(), 
-							 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-					if (!FileHashMap.getLockedFileList().contains(fileName + WRITE_FLAG)) {
-						FileHashMap.addLockedFileList(fileName + WRITE_FLAG);
+		 boolean lockAcquired = false;
+		 while(!lockAcquired) {
+			 try {
+					if (zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, false)==null &&
+							zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + READ_FLAG, false)==null) {
+						zooKeeper.create(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, serverName.getBytes(), 
+								 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+						if (!FileHashMap.getLockedFileList().contains(fileName + WRITE_FLAG)) {
+							FileHashMap.addLockedFileList(fileName + WRITE_FLAG);
+						}
+						lockAcquired = true;
+						System.out.println(fileName + " has successfully acuqired write lock.");
+					}else {
+						lockAcquired = false;
+						System.out.println(fileName + " faild to aquire write lock.");
+						registerForWriteLockUpdates(fileName);
 					}
-					lockAquired = true;
-					System.out.println(fileName + " has successfully acuqired write lock.");
-				}else {
-					lockAquired = false;
-					System.out.println(fileName + " faild to aquire write lock.");
-					registerForWriteLockUpdates(fileName);
+					
+				} catch (KeeperException | InterruptedException e) {
+					System.out.println(" Acuqiring write lock may have failed. Retry to acquire write lock...");
+					Thread.sleep(500);
 				}
-				
-			} catch (KeeperException | InterruptedException e) {
-				System.out.println(" Acuqiring write lock may have failed. Retry to acquire write lock...");
-				try {
-					registerForWriteLockUpdates(fileName);
-				} catch (KeeperException | InterruptedException e1) {}
-			}
-		 return lockAquired;
+		 }
+		 return lockAcquired;
 	 }
 	 
 	 public synchronized void registerForWriteLockUpdates(String fileName) throws KeeperException, InterruptedException {

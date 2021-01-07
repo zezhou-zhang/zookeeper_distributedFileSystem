@@ -77,6 +77,14 @@ public class OperatingCommand extends Thread {
 				LoadTest loadTest = new LoadTest(writer);
 				loadTest.performLoadTest();
 				break;
+			case "stress test":
+				String[] command_string = command.split("\\s+");
+				int threads = command_string.length == 5 ? Integer.valueOf(command_string[2]) : 200;
+				double load = command_string.length == 5 ? Double.valueOf(command_string[3]) : 1;
+				long duration = command_string.length == 5 ? Long.valueOf(command_string[4]) : 100000;
+				LoadTest stressTest = new LoadTest(writer);
+				stressTest.perfromStressTest(threads, load, duration);
+				break;
 			case "create":
 				fileName = command.split("\\s+")[1];
 				feedback = fileOperation.createFile(fileName);
@@ -107,6 +115,9 @@ public class OperatingCommand extends Thread {
 	private String matchCommand(String command) {
 		if (command.contains("load test")){
 			return "load test";
+		}
+		else if (command.contains("stress test")){
+			return "stress test"; 
 		}
 		else if (command.contains("create")) {
 			return "create";

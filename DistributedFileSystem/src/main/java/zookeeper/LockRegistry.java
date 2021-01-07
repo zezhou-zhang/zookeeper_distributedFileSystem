@@ -100,7 +100,10 @@ public class LockRegistry implements Watcher {
 				}
 				
 			} catch (KeeperException | InterruptedException e) {
-				e.printStackTrace();
+				System.out.println(" Acuqiring write lock may have failed. Retry to acquire write lock...");
+				try {
+					registerForWriteLockUpdates(fileName);
+				} catch (KeeperException | InterruptedException e1) {}
 			}
 		 return lockAquired;
 	 }

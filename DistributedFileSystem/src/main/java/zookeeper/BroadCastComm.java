@@ -38,6 +38,7 @@ public class BroadCastComm extends Thread{
 				pw.println(myServerAddress);
 				pw.println(String.format("write %s %s", fileName, data));
 				String feedback = bf.readLine();
+				System.out.println(ip + ": " + feedback);
 				socketServer.close();
 			} catch (IOException e) {
 				e.printStackTrace();

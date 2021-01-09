@@ -108,7 +108,9 @@ public class LockRegistry implements Watcher {
 				}
 		 }
 		 return lockAcquired;
-		 /* Shared Lock Solution (future implementation)
+		 /* 
+		  * Shared Lock Solution (future implementation)
+		  * 
 		 this.data = data;
 		 boolean lockAcquired = false;
 		 try {

@@ -11,8 +11,8 @@ public class LoadTest {
 	
 	public void perfromStressTest(int threads, double load, long duration) {
 		for (int thread = 0; thread < threads; thread++) {
-	            new BusyThread("Thread" + thread, load, duration).start();
-	        }
+			new BusyThread("Thread" + thread, load, duration).start();
+	    }
 	        System.out.println("This thread will run infinite loop until reach duration time.");
 	        /*
 		 * Wait for all threads finished and then plot for performance comparison
@@ -29,7 +29,7 @@ public class LoadTest {
 				} catch (InterruptedException e) {}
 			}
 		}
-		pr.println("Load Test Finished!");
+		pr.println("Stress Test Finished!");
 
 	}
 	

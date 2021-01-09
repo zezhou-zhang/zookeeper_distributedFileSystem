@@ -1,6 +1,7 @@
 package zookeeper;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,6 +11,7 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooDefs;
 import org.apache.zookeeper.ZooKeeper;
+import org.apache.zookeeper.data.Stat;
 
 public class LockRegistry implements Watcher {
 	
@@ -106,6 +108,37 @@ public class LockRegistry implements Watcher {
 				}
 		 }
 		 return lockAcquired;
+		 /* Shared Lock Solution (future implementation)
+		 this.data = data;
+		 boolean lockAcquired = false;
+		 try {
+			String znodeFullPath = zooKeeper.create(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, serverName.getBytes(), 
+					 ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+			String myZnodeName = znodeFullPath.replace(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, "");
+			List<String> childrenList = zooKeeper.getChildren(LOCK_REGISTRY, false);
+			for (int i = 0; i< childrenList.size();i++) {
+				String child = childrenList.get(i).replace(fileName + WRITE_FLAG, "");
+				childrenList.set(i, child);
+			}
+			Collections.sort(childrenList);
+			String smallestChild = childrenList.get(0);
+			if (myZnodeName == smallestChild) {
+				lockAcquired = true;
+			}else {
+				Stat stat = zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG+smallestChild, this);
+				if (stat == null) {
+					registerToWriteLock(serverName, fileName,  data);
+				}else {
+					lockAcquired = false;
+				}
+			}
+		} catch (KeeperException | InterruptedException e) {
+			System.out.println(" Acuqiring write lock may have failed. Retry to acquire write lock...");
+			Thread.sleep(500);
+		}
+		 
+		return lockAcquired;
+		*/
 	 }
 	 
 	 public synchronized void registerForWriteLockUpdates(String fileName) throws KeeperException, InterruptedException {
@@ -135,10 +168,12 @@ public class LockRegistry implements Watcher {
 							if (lockedFile.contains(WRITE_FLAG)){
 								System.out.println("Trying to re-write the file.");
 								FileOperation.writeFile(lockedFile.replace(WRITE_FLAG,""),data);
+								// fileCallBack.onWrite()
 							}
 							if (lockedFile.contains(READ_FLAG)){
 								System.out.println("Trying to re-read the file.");
 								FileOperation.readFile(lockedFile.replace(READ_FLAG, ""));
+								// fileCallBack.onRead()
 							}
 						}
 					}
@@ -146,6 +181,7 @@ public class LockRegistry implements Watcher {
 					e.printStackTrace();
 				}
 				break;
+
 		}
 	}
 	

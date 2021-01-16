@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 public class LoadTest {
 	private PrintWriter pr;
@@ -10,6 +9,7 @@ public class LoadTest {
 	}
 	public void performLoadTest() throws IOException {
 		pr.println("received");
+		pr.close();
 	}
 	
 	public void perfromStressTest(int threads, double load, long duration) {

@@ -33,7 +33,6 @@ public class LoadTest {
 			}
 		}
 		pr.println("Stress Test Finished!");
-		pr.close();
 	}
 	
 	private Thread getThreadByName(String threadName) {

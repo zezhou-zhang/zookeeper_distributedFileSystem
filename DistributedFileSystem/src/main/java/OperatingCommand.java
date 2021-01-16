@@ -85,6 +85,9 @@ public class OperatingCommand extends Thread {
 				LoadTest stressTest = new LoadTest(writer);
 				stressTest.perfromStressTest(threads, load, duration);
 				break;
+			case "disconnect":
+				writer.close();
+				break;
 			case "create":
 				fileName = command.split("\\s+")[1];
 				feedback = fileOperation.createFile(fileName);
@@ -118,6 +121,9 @@ public class OperatingCommand extends Thread {
 		}
 		else if (command.contains("stress test")){
 			return "stress test"; 
+		}
+		else if (command.contains("disconnect")){
+			return "disconnect"; 
 		}
 		else if (command.contains("create")) {
 			return "create";

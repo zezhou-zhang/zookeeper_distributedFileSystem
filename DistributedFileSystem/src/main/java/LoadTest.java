@@ -1,12 +1,18 @@
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
 
 public class LoadTest {
 	private PrintWriter pr;
-	public LoadTest(PrintWriter pr) {
+	private Socket socket;
+	public LoadTest(Socket socket, PrintWriter pr) {
+		this.socket = socket;
 		this.pr = pr;
 	}
-	public void performLoadTest() {
+	public void performLoadTest() throws IOException {
 		pr.println("received");
+		pr.close();
+		//pr = new PrintWriter(socket.getOutputStream(),true); 
 	}
 	
 	public void perfromStressTest(int threads, double load, long duration) {

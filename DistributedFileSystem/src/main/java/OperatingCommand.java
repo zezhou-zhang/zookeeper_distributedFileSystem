@@ -74,7 +74,7 @@ public class OperatingCommand extends Thread {
 		String feedback;
 		switch(match) {
 			case "load test":
-				LoadTest loadTest = new LoadTest(writer);
+				LoadTest loadTest = new LoadTest(socket, writer);
 				loadTest.performLoadTest();
 				break;
 			case "stress test":
@@ -82,7 +82,7 @@ public class OperatingCommand extends Thread {
 				int threads = command_string.length == 5 ? Integer.valueOf(command_string[2]) : 200;
 				double load = command_string.length == 5 ? Double.valueOf(command_string[3]) : 1;
 				long duration = command_string.length == 5 ? Long.valueOf(command_string[4]) : 100000;
-				LoadTest stressTest = new LoadTest(writer);
+				LoadTest stressTest = new LoadTest(socket, writer);
 				stressTest.perfromStressTest(threads, load, duration);
 				break;
 			case "create":

@@ -4,15 +4,12 @@ import java.net.Socket;
 
 public class LoadTest {
 	private PrintWriter pr;
-	private Socket socket;
-	public LoadTest(Socket socket, PrintWriter pr) {
-		this.socket = socket;
+
+	public LoadTest(PrintWriter pr) {
 		this.pr = pr;
 	}
 	public void performLoadTest() throws IOException {
 		pr.println("received");
-		pr.close();
-		pr = new PrintWriter(socket.getOutputStream(),true); 
 	}
 	
 	public void perfromStressTest(int threads, double load, long duration) {
@@ -36,7 +33,7 @@ public class LoadTest {
 			}
 		}
 		pr.println("Stress Test Finished!");
-
+		pr.close();
 	}
 	
 	private Thread getThreadByName(String threadName) {

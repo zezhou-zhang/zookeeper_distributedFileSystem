@@ -12,7 +12,7 @@ public class LoadTest {
 	public void performLoadTest() throws IOException {
 		pr.println("received");
 		pr.close();
-		//pr = new PrintWriter(socket.getOutputStream(),true); 
+		pr = new PrintWriter(socket.getOutputStream(),true); 
 	}
 	
 	public void perfromStressTest(int threads, double load, long duration) {

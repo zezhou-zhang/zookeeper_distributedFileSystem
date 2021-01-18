@@ -133,6 +133,7 @@ public class FileOperation{
 		}else {
 			feedback = "File does not exist.";
 		}
+		lockRegistry.unregisterToReadLock(fileName);
 		System.out.println(feedback);
 		return feedback;
 		

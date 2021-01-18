@@ -57,7 +57,7 @@ public class LockRegistry implements Watcher {
 			}
 			
 		} catch (KeeperException | InterruptedException e) {
-			e.printStackTrace();
+			System.out.println("File lock node has been created");
 		}
 		return lockAquired;
 	 }

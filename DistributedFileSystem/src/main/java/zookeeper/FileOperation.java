@@ -175,6 +175,7 @@ public class FileOperation{
 			}catch (FileNotFoundException e) {feedback = "File does not exist.";}
 		}else {
 			feedback = "File does not exist.";
+			lockRegistry.unregisterToWriteLock(fileName);
 		}
 		System.out.println(feedback);
 		return feedback;

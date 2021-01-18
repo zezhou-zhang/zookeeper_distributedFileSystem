@@ -80,10 +80,10 @@ public class FileOperation{
 		if(file.delete()) {
 			feedback = "File: " + fileName + " Deleted.";
 			filesRegistry.unregisterToFiles(fileName);
-			lockRegistry.unregisterToWriteLock(fileName);
 		}else {
 			feedback = "File deletion failed or file already been deleted.";
 		}
+		lockRegistry.unregisterToWriteLock(fileName);
 		System.out.println(feedback);
 		return feedback;
 		

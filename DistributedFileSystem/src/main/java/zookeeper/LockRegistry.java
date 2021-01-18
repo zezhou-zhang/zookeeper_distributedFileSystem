@@ -37,7 +37,7 @@ public class LockRegistry implements Watcher {
 		}
 	}
 	
-	 public synchronized boolean registerToReadLock(String serverName, String fileName) {
+	 public boolean registerToReadLock(String serverName, String fileName) {
 		 boolean lockAquired = false;
 		 try {
 			if (zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, false)==null) {
@@ -62,7 +62,7 @@ public class LockRegistry implements Watcher {
 		return lockAquired;
 	 }
 	 
-	 public synchronized void unregisterToReadLock(String fileName) throws InterruptedException, KeeperException {
+	 public void unregisterToReadLock(String fileName) throws InterruptedException, KeeperException {
 		 if (zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + READ_FLAG, false)!=null) {
 			 zooKeeper.delete(LOCK_REGISTRY + "/" + fileName + READ_FLAG, -1);
 			 if (FileHashMap.getLockedFileList().contains(fileName + READ_FLAG)) {
@@ -72,7 +72,7 @@ public class LockRegistry implements Watcher {
 		 }
 	 }
 	 
-	 public synchronized void unregisterToWriteLock(String fileName) throws InterruptedException, KeeperException {
+	 public void unregisterToWriteLock(String fileName) throws InterruptedException, KeeperException {
 		 if (zooKeeper.exists(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, false)!=null) {
 			 zooKeeper.delete(LOCK_REGISTRY + "/" + fileName + WRITE_FLAG, -1);
 			 if (FileHashMap.getLockedFileList().contains(fileName + WRITE_FLAG)) {
@@ -82,7 +82,7 @@ public class LockRegistry implements Watcher {
 		 }
 	 }
 	 
-	 public synchronized boolean registerToWriteLock(String serverName, String fileName, String data) throws InterruptedException {
+	 public boolean registerToWriteLock(String serverName, String fileName, String data) throws InterruptedException {
 		 this.data = data;
 		 boolean lockAcquired = false;
 		 while(!lockAcquired) {

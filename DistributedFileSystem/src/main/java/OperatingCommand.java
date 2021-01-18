@@ -92,22 +92,26 @@ public class OperatingCommand extends Thread {
 				fileName = command.split("\\s+")[1];
 				feedback = fileOperation.createFile(fileName);
 				writer.println(feedback);
+				writer.flush();
 				break;
 			case "delete":
 				fileName = command.split("\\s+")[1];
 				feedback = fileOperation.deleteFile(fileName);
 				writer.println(feedback);
+				writer.flush();
 				break;
 			case "read":
 				fileName = command.split("\\s+")[1];
 				feedback = fileOperation.readFile(fileName);
 				writer.println(feedback);
+				writer.flush();
 				break;
 			case "write":
 				String data = command.split("\\s+").length == 3 ? command.split("\\s+")[2] : null;
 				fileName = command.split("\\s+")[1];
 				feedback = fileOperation.writeFile(fileName, data);
 				writer.println(feedback);
+				writer.flush();
 				break;
 			case "not match":
 				System.out.println("Invalid command.");

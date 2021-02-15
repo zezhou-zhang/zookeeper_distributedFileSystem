@@ -81,7 +81,7 @@ To test this, when we will create a file, write some bytes into the file and exi
 ### Jmeter for Load Balancing and Synchronization Testing
 We use Jmeter to simulate multiple clients sending requests to the file servers at the same time by using thread groups.
 
-Below is the testing plan for one single client in jmx file. The client will send ```create a.txt```, ```write a.txt```, ```delete a.txt``` to test the behaviors of the synchronization. If nothihng goes wrong, it should have no file left in the file servers.
+Below is the testing plan for one single client in jmx file. The client will send ```create a.txt```, ```write a.txt```, ```delete a.txt``` to test the behaviors of the synchronization. If nothihng goes wrong, it should have no file left in the file servers. Same strategy can also be applied to load balancing test.
 ```
  </TestPlan>
     <hashTree>

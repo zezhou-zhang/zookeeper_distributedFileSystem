@@ -1,4 +1,4 @@
-# Linux Distributed File System Integrated with Apache Zookeeper
+# Linux Distributed File System with Apache Zookeeper
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Introduction
 This is a java maven-based distributed file system integrated with Apache Zookeeper API.
@@ -80,7 +80,8 @@ To test this, when we will create a file, write some bytes into the file and exi
 
 ### Jmeter for Load Balancing and Synchronization Testing
 We use Jmeter to simulate multiple clients sending requests to the file servers at the same time by using thread groups.
-Below is the testing plan in jmx file.
+
+Below is the testing plan for one single client in jmx file. The client will send ```create a.txt```, ```write a.txt```, ```delete a.txt``` to test the behaviors of the synchronization. If nothihng goes wrong, it should have no file left in the file servers.
 ```
  </TestPlan>
     <hashTree>

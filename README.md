@@ -24,6 +24,7 @@ load test and loadThread are mainly for testing the performance of TCP load bala
 
 ### TCP Load Balancer
 [TCP Load Balancer] (https://github.com/zezhou-zhang/TCPLoadBalancer)
+Self designed TCP load balancer to distribute client requests and balance the load for the servers.
 
 | Balancing Algorithm|     Introduction                                                                          |
 | -------------------|---------------------------------------------------------------------------------- |

@@ -20,7 +20,7 @@ The file editing follows eventual consistency to ensure fast writing performance
 | load test          |     Return average TCP response time from servers                                      |
 | loadThread         |     Used to increase the CPU utilization of the servers for load testing            |
 
-```load test``` and ```loadThread``` are mainly for testing the performance of TCP load balancer
+```load test``` and ```loadThread``` are mainly for testing the performance of TCP load balancer.
 
 -------------------------------------------------------------------------------
 

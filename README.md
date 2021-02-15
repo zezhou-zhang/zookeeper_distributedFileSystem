@@ -25,6 +25,7 @@ load test and loadThread are mainly for testing the performance of TCP load bala
 
 ### TCP Load Balancer
 [TCP Load Balancer] (https://github.com/zezhou-zhang/TCPLoadBalancer)
+
 Self designed TCP load balancer to distribute client requests and balance the load for the servers.
 
 | Balancing Algorithm|     Introduction                                                                          |
@@ -33,6 +34,7 @@ Self designed TCP load balancer to distribute client requests and balance the lo
 | Response-time      |     A client request is forwarded to first responsed server                             |
 | Sticky-session     |     A client request is forwarded to the same server during the client's current TCP session      |
 
+Depending on the way we implement the file replication, you may want to bind a client’s session to a specific server instance if the propagation of updates follows the eventual consistency rather than strong consistency. Otherwise, for exampple, if a client deletes an existing file and immediately attempts to read it, it might receive the deleted data until the deletion is fully propagated.
 
 ## Synchronization and Fault Torelance with Apache Zookeeper
 
@@ -45,7 +47,7 @@ Every time a new file server joins the cluster, it will create a new znode under
 ### Synchronization
 ZooKeeper provides for a simple interface to implement the need for synchronizing access to shared resources. In this file system, we can make no assumption about the pattern of file accesses by the clients nor can we make any assumption about the operations performed by the clients. To maintain consistency of the file system, synchronizing the clients is important. We will use locks/semaphores to achieve synchronization. A write operation on a file cannot happen when another client is performing read on the same file. Similarly, a delete operation cannot happen on a file when another client is either writing or reading from the same file. Two clients can read the same file at the same time.
 #### Locking
-To allow for serialized access to a shared resource in your distributed system, you may need to implement distributed mutexes. ZooKeeper provides for an easy way for you to implement them.
+To allow for serialized access to a shared resource in your distributed system, you may need to implement distributed mutexes. ZooKeeper provides for an easy way for you to implement them. Below is the code snippet for locking implementation.
 ```
 void getLock() throws KeeperException, InterruptedException{
         List<String> list = zk.getChildren(root, false);

@@ -2,8 +2,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Introduction
 This is a java maven-based distributed file system integrated with Apache Zookeeper API.
-### How distributed file system can change the file sharing
-The goal for the distributed file system is mainly for internal network to share file and edit together.
+### How Distributed File System Can Help the File Sharing
+The goal for the distributed file system is mainly for internal network to share file and edit together. Cooperating can be much easier because all the updates would be synchronized once the write operation is finished.
 The file editing follows eventual consistency to ensure fast writing performance. This behavior trades off the consistency of files, which can leads to different versions for one file in a very short amount of time.
 
 -------------------------------------------------------------------------------

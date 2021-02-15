@@ -75,12 +75,46 @@ void waitForLock(String lower) throws InterruptedException, KeeperException {
 
 ### Fault Tolerance
 Fault-tolerance is an important distributed computing problem. If we have 3 file servers, it will be wise to replicate the files on the available file servers, so that when one file server fails, the other can act as a backup. Every time a ```create```, ```delete```, ```write``` command is received from clients, the servers will perform ```replicate_create```, ```replicate_delete```, ```replicate_write``` internally to make contact with other servers through TCP socket communication.
-To test this, when we will create a file, write some bytes into the file and exit the client; then kill the
-file server that the client was connected to and then start the client; we will then read the file and
-the file should be available to the client.
 
+To test this, when we will create a file, write some bytes into the file and exit the client; then kill the file server that the client was connected to and then start the client; we will then read the file and the file should be available to the client.
 
-
+### Jmeter for Load Balancing and Synchronization Testing
+We use Jmeter to simulate multiple clients sending requests to the file servers at the same time by using thread groups.
+Below is the testing plan in jmx file.
+```
+ </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <TCPSampler guiclass="TCPSamplerGui" testclass="TCPSampler" testname="TCP Sampler" enabled="true">
+          <stringProp name="TCPSampler.server">172.17.91.1</stringProp>
+          <boolProp name="TCPSampler.reUseConnection">true</boolProp>
+          <stringProp name="TCPSampler.port">8003</stringProp>
+          <boolProp name="TCPSampler.nodelay">false</boolProp>
+          <stringProp name="TCPSampler.timeout"></stringProp>
+          <stringProp name="TCPSampler.request">jmeter1
+create a.txt
+write a.txt
+delete a.txt
+disconnect
+</stringProp>
+          <boolProp name="TCPSampler.closeConnection">false</boolProp>
+          <stringProp name="ConfigTestElement.username"></stringProp>
+          <stringProp name="ConfigTestElement.password"></stringProp>
+        </TCPSampler>
+```
 
 ## Technology and Reference documents
 [Apache Zookeeper] 

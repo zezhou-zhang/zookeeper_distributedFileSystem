@@ -1,5 +1,5 @@
 # Linux Distributed File System Integrated with Apache Zookeeper
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Introduction
 This is a java maven-based distributed file system integrated with Apache Zookeeper API.
 ### How distributed file system can change the file sharing
